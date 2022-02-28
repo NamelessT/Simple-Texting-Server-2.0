@@ -90,12 +90,10 @@ namespace CommandServer
         {
             try
             {
-                string arg = args[0];
-                string[] arg_s = arg.Split(":");
-                SERVER_IP = IPAddress.Parse(arg_s[0]);
-                SERVER_PORT = int.Parse(arg_s[1]);
-                //parses the server ip and port
-
+				string[] res = args[0].Split(':');
+				SERVER_IP = IPAddress.Parse(res[0]);
+				SERVER_PORT = int.Parse(res[1]);
+				
                 Console.WriteLine("INIT");
                 for (int i = 0; i <= RUNNIN.Length - 1; i++)
                 {
