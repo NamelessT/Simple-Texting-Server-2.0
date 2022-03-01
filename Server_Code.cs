@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
@@ -84,16 +82,44 @@ namespace CommandServer
             //parses the pub_key as a byte array for sending across the wire
 
         }
-        private static TcpListener server = new TcpListener(SERVER_IP, SERVER_PORT);
+        private static string[] Split(char split, string source)
+        {
+            byte[] responce_2 = new byte[0];
+            byte[] responce_1 = new byte[0];
+            string[] return_a = new string[2];
+            int breaker = 0;
+            byte[] source_b = System.Text.Encoding.ASCII.GetBytes(source);
+            for(int i = 0; i <= source_b.Length - 1; i++)
+            {
+                if(source_b[i] == split)
+                {
+                    breaker = i;
+                }
+            }
+            int second_breaker = source_b.Length - 1;
+            second_breaker = second_breaker - breaker;
+            responce_1 = new byte[breaker + 1];
+            for(int j = 0; j <= breaker; j++)
+            {
+                responce_1[j] = source_b[j];
+            }
+            for(int k = 0; k <= second_breaker; k++)
+            {
+                responce_2[k] = source_b[breaker + k];
+            }
+            return_a[0] = System.Text.Encoding.ASCII.GetString();
+        }
+        //had to write because of dumb stuff
+        private static TcpListener server;
         //TcpListner listening for connection attempts
         private static void Main(string[] args)
         {
             try
             {
-				string[] res = args[0].Split(':');
+				string[] res = Split(':',args[0]);
 				SERVER_IP = IPAddress.Parse(res[0]);
 				SERVER_PORT = int.Parse(res[1]);
-				
+				server = new TcpListener(SERVER_IP, SERVER_PORT);
                 Console.WriteLine("INIT");
                 for (int i = 0; i <= RUNNIN.Length - 1; i++)
                 {
